@@ -1,2 +1,2 @@
 # basic-ai-concepts
-This is a repository for basic AI-related concepts and terminologies.
+This is a post that explains the concept of reinforcement learning.
