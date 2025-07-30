@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Glossary</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 30px; background: #f9f9f9; }
+    h2 { color: #2c3e50; }
+    select, button { font-size: 16px; padding: 6px 10px; margin-right: 10px; }
+    .definition-box {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      background-color: #fff;
+      width: 100%;
+      max-width: 700px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>AI Glossary</h2>
+  <label for="termSelect">Select a term:</label>
+  <select id="termSelect">
+    <option value="">-- Select --</option>
+    <option value="Artificial General Intelligence">Artificial General Intelligence</option>
+    <option value="Generative AI">Generative AI</option>
+    <option value="Artificial Narrow Intelligence">Artificial Narrow Intelligence</option>
+    <option value="Machine Learning">Machine Learning</option>
+    <option value="Data Science">Data Science</option>
+    <option value="Large Language Models">Large Language Models</option>
+    <option value="Artificial Neural Networks">Artificial Neural Networks</option>
+    <option value="Supervised Learning">Supervised Learning</option>
+    <option value="Unsupervised Learning">Unsupervised Learning</option>
+    <option value="Reinforcement Learning">Reinforcement Learning</option>
+  </select>
+
+  <button onclick="showDefinition()">Show Definition</button>
+
+  <div class="definition-box" id="definitionBox"></div>
+
+  <script>
+    const definitions = {
+      "Artificial General Intelligence": "A theoretical form of AI capable of understanding and performing any intellectual task that a human can.",
+      "Generative AI": "AI systems that create new content such as text, images, or music based on learned patterns.",
+      "Artificial Narrow Intelligence": "AI designed to perform a specific task or a limited set of functions with high efficiency.",
+      "Machine Learning": "A method of training computers to learn from data and improve their performance without explicit programming.",
+      "Data Science": "The interdisciplinary field that extracts knowledge and insights from structured and unstructured data.",
+      "Large Language Models": "Deep learning models trained on vast text datasets to understand and generate human-like language.",
+      "Artificial Neural Networks": "Computing systems inspired by the human brain that recognize patterns and learn from data.",
+      "Supervised Learning": "A machine learning approach where models are trained using labeled input-output pairs.",
+      "Unsupervised Learning": "A machine learning method that finds hidden patterns in data without labeled outputs.",
+      "Reinforcement Learning": "A learning technique where an agent learns to make decisions by receiving rewards or penalties."
+    };
+
+    function showDefinition() {
+      const selectedTerm = document.getElementById("termSelect").value;
+      const definitionBox = document.getElementById("definitionBox");
+      if (definitions[selectedTerm]) {
+        definitionBox.textContent = definitions[selectedTerm];
+      } else {
+        definitionBox.textContent = "Please select a term to see its definition.";
+      }
+    }
+  </script>
+
+</body>
+</html>
