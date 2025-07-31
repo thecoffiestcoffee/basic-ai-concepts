@@ -10,11 +10,11 @@ License
 
 This project is dedicated to the public domain under the [CC0 1.0 Universal](LICENSE) license.
 
--> These were made using GPT-4o.
+-> These were made using different AI models.
 
 Here are the text versions:
 
-# Basic Glossary
+# Basic Glossary -(GPT-4o)
 
 ## 1. Artificial Intelligence (AI)
 The broader field of creating machines capable of performing tasks that typically require human intelligence.
