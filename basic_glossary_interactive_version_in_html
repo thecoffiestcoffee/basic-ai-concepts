@@ -2,68 +2,443 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Glossary</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 30px; background: #f9f9f9; }
-    h2 { color: #2c3e50; }
-    select, button { font-size: 16px; padding: 6px 10px; margin-right: 10px; }
-    .definition-box {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ddd;
-      background-color: #fff;
-      width: 100%;
-      max-width: 700px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      padding: 20px;
       color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a237e, #283593);
+      padding: 40px 30px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+      50% { transform: translate(-50%, -50%) rotate(180deg); }
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 300;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      padding: 40px 30px;
+    }
+
+    .control-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 30px;
+      justify-content: center;
+    }
+
+    label {
+      font-weight: 600;
+      color: #1a237e;
+      font-size: 1.1em;
+    }
+
+    select {
+      font-size: 16px;
+      padding: 12px 20px;
+      border: 2px solid #bbdefb;
+      border-radius: 25px;
+      background: white;
+      color: #1a237e;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 250px;
+      outline: none;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    select:hover {
+      border-color: #2196f3;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
+    }
+
+    select:focus {
+      border-color: #2196f3;
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+
+    button {
+      font-size: 16px;
+      padding: 12px 30px;
+      background: linear-gradient(135deg, #2196f3, #1976d2);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+      outline: none;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .definition-box {
+      margin-top: 30px;
+      padding: 30px;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      color: #1a237e;
+      line-height: 1.8;
+      font-size: 1.1em;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      transition: all 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .definition-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .definition-box.show::before {
+      left: 100%;
+    }
+
+    .definition-box.show {
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .definition-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    .term-name {
+      font-weight: 700;
+      color: #1976d2;
+      font-size: 1.3em;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .placeholder-text {
+      opacity: 0.6;
+      font-style: italic;
+    }
+
+    .search-container {
+      position: relative;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 50px 15px 20px;
+      border: 2px solid #bbdefb;
+      border-radius: 25px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: white;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .search-input:focus {
+      border-color: #2196f3;
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2196f3;
+      font-size: 20px;
+    }
+
+    .term-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .term-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .term-card:hover {
+      border-color: #2196f3;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(33, 150, 243, 0.15);
+    }
+
+    .term-card.selected {
+      border-color: #2196f3;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    }
+
+    .term-title {
+      font-weight: 600;
+      color: #1a237e;
+      margin-bottom: 5px;
+    }
+
+    .term-preview {
+      font-size: 0.9em;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 15px;
+      }
+      
+      .header {
+        padding: 30px 20px;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      .content {
+        padding: 30px 20px;
+      }
+      
+      .control-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      select, button {
+        width: 100%;
+        margin-right: 0;
+      }
+      
+      .term-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="header">
+      <h1>AI Glossary</h1>
+      <p class="subtitle">Explore the world of Artificial Intelligence</p>
+    </div>
+    
+    <div class="content">
+      <div class="control-section">
+        <label for="termSelect">Select a term:</label>
+        <select id="termSelect">
+          <option value="">-- Select a Term --</option>
+          <option value="Artificial General Intelligence">Artificial General Intelligence</option>
+          <option value="Generative AI">Generative AI</option>
+          <option value="Artificial Narrow Intelligence">Artificial Narrow Intelligence</option>
+          <option value="Machine Learning">Machine Learning</option>
+          <option value="Data Science">Data Science</option>
+          <option value="Large Language Models">Large Language Models</option>
+          <option value="Artificial Neural Networks">Artificial Neural Networks</option>
+          <option value="Supervised Learning">Supervised Learning</option>
+          <option value="Unsupervised Learning">Unsupervised Learning</option>
+          <option value="Reinforcement Learning">Reinforcement Learning</option>
+        </select>
+        <button onclick="showDefinition()">Show Definition</button>
+      </div>
 
-  <h2>AI Glossary</h2>
-  <label for="termSelect">Select a term:</label>
-  <select id="termSelect">
-    <option value="">-- Select --</option>
-    <option value="Artificial General Intelligence">Artificial General Intelligence</option>
-    <option value="Generative AI">Generative AI</option>
-    <option value="Artificial Narrow Intelligence">Artificial Narrow Intelligence</option>
-    <option value="Machine Learning">Machine Learning</option>
-    <option value="Data Science">Data Science</option>
-    <option value="Large Language Models">Large Language Models</option>
-    <option value="Artificial Neural Networks">Artificial Neural Networks</option>
-    <option value="Supervised Learning">Supervised Learning</option>
-    <option value="Unsupervised Learning">Unsupervised Learning</option>
-    <option value="Reinforcement Learning">Reinforcement Learning</option>
-  </select>
-
-  <button onclick="showDefinition()">Show Definition</button>
-
-  <div class="definition-box" id="definitionBox"></div>
+      <div class="term-grid" id="termGrid"></div>
+      
+      <div class="definition-box" id="definitionBox">
+        <div class="definition-text placeholder-text">
+          Select a term above to see its definition
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
     const definitions = {
-      "Artificial General Intelligence": "A theoretical form of AI capable of understanding and performing any intellectual task that a human can.",
-      "Generative AI": "AI systems that create new content such as text, images, or music based on learned patterns.",
-      "Artificial Narrow Intelligence": "AI designed to perform a specific task or a limited set of functions with high efficiency.",
-      "Machine Learning": "A method of training computers to learn from data and improve their performance without explicit programming.",
-      "Data Science": "The interdisciplinary field that extracts knowledge and insights from structured and unstructured data.",
-      "Large Language Models": "Deep learning models trained on vast text datasets to understand and generate human-like language.",
-      "Artificial Neural Networks": "Computing systems inspired by the human brain that recognize patterns and learn from data.",
-      "Supervised Learning": "A machine learning approach where models are trained using labeled input-output pairs.",
-      "Unsupervised Learning": "A machine learning method that finds hidden patterns in data without labeled outputs.",
-      "Reinforcement Learning": "A learning technique where an agent learns to make decisions by receiving rewards or penalties."
+      "Artificial General Intelligence": "A theoretical form of AI capable of understanding and performing any intellectual task that a human can do. AGI represents the ultimate goal of AI research - creating machines with human-level cognitive abilities across all domains.",
+      "Generative AI": "AI systems that create new content such as text, images, music, or code based on learned patterns from training data. Examples include ChatGPT, DALL-E, and other creative AI tools.",
+      "Artificial Narrow Intelligence": "AI designed to perform a specific task or a limited set of functions with high efficiency. Most current AI systems are narrow AI, excelling in one area but unable to generalize to other domains.",
+      "Machine Learning": "A method of training computers to learn from data and improve their performance without explicit programming. It enables systems to automatically identify patterns and make predictions or decisions.",
+      "Data Science": "The interdisciplinary field that extracts knowledge and insights from structured and unstructured data using scientific methods, algorithms, and systems to solve complex problems.",
+      "Large Language Models": "Deep learning models trained on vast text datasets to understand and generate human-like language. These models can perform various language tasks like translation, summarization, and conversation.",
+      "Artificial Neural Networks": "Computing systems inspired by the human brain that recognize patterns and learn from data through interconnected nodes (neurons) that process and transmit information.",
+      "Supervised Learning": "A machine learning approach where models are trained using labeled input-output pairs, learning to map inputs to correct outputs for prediction on new, unseen data.",
+      "Unsupervised Learning": "A machine learning method that finds hidden patterns in data without labeled outputs, discovering structure and relationships in data through techniques like clustering and dimensionality reduction.",
+      "Reinforcement Learning": "A learning technique where an agent learns to make decisions by receiving rewards or penalties for its actions, gradually improving its strategy through trial and error in an environment."
     };
+
+    let selectedCard = null;
+
+    function createTermCards() {
+      const termGrid = document.getElementById('termGrid');
+      termGrid.innerHTML = '';
+      
+      Object.keys(definitions).forEach(term => {
+        const card = document.createElement('div');
+        card.className = 'term-card';
+        card.onclick = () => selectTerm(term, card);
+        
+        const preview = definitions[term].substring(0, 80) + '...';
+        
+        card.innerHTML = `
+          <div class="term-title">${term}</div>
+          <div class="term-preview">${preview}</div>
+        `;
+        
+        termGrid.appendChild(card);
+      });
+    }
+
+    function selectTerm(term, cardElement) {
+      // Update select dropdown
+      document.getElementById('termSelect').value = term;
+      
+      // Update card selection
+      if (selectedCard) {
+        selectedCard.classList.remove('selected');
+      }
+      selectedCard = cardElement;
+      cardElement.classList.add('selected');
+      
+      // Show definition
+      showDefinition();
+    }
 
     function showDefinition() {
       const selectedTerm = document.getElementById("termSelect").value;
       const definitionBox = document.getElementById("definitionBox");
+      
       if (definitions[selectedTerm]) {
-        definitionBox.textContent = definitions[selectedTerm];
+        definitionBox.classList.add('show');
+        definitionBox.innerHTML = `
+          <div class="definition-text">
+            <span class="term-name">${selectedTerm}</span>
+            ${definitions[selectedTerm]}
+          </div>
+        `;
+        
+        // Update card selection if term was selected from dropdown
+        const cards = document.querySelectorAll('.term-card');
+        cards.forEach(card => {
+          card.classList.remove('selected');
+          if (card.querySelector('.term-title').textContent === selectedTerm) {
+            card.classList.add('selected');
+            selectedCard = card;
+          }
+        });
       } else {
-        definitionBox.textContent = "Please select a term to see its definition.";
+        definitionBox.classList.remove('show');
+        definitionBox.innerHTML = `
+          <div class="definition-text placeholder-text">
+            Select a term above to see its definition
+          </div>
+        `;
+        if (selectedCard) {
+          selectedCard.classList.remove('selected');
+          selectedCard = null;
+        }
       }
     }
-  </script>
 
+    // Event listeners
+    document.getElementById('termSelect').addEventListener('change', showDefinition);
+
+    // Initialize
+    createTermCards();
+  </script>
 </body>
 </html>
